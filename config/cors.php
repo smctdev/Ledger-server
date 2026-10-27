@@ -11,6 +11,7 @@ return [
 
     'allowed_origins' => [
         'http://localhost:3000',
+        'https://ledger.smctgroup',
     ],
 
     'allowed_origins_patterns' => [],
