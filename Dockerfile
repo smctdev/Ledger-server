@@ -32,7 +32,6 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Copy application code
 COPY . /var/www
-COPY . .
 
 # Build frontend assets
 RUN npm install && npm run build
