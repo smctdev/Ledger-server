@@ -43,7 +43,7 @@ services:
             context: ./
             dockerfile: Dockerfile-reverb
         ports:
-            - "8085:8085" # expose Reverb server
+            - "8086:8086" # expose Reverb server
         environment:
             - APP_URL=${APP_URL}
             - LARAVEL_REVERB_APP_KEY=${REVERB_APP_KEY}
