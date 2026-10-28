@@ -13,4 +13,9 @@ class Payment extends Model
     {
         return $this->belongsTo(Location::class,'location_id');
     }
+
+    public function installment(): BelongsTo
+    {
+        return $this->belongsTo(Installment::class,'installment_id');
+    }
 }
