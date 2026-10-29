@@ -6,16 +6,47 @@ use App\Jobs\ImportPayments;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class PaymentController
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->input('search');
+        $page = $request->input('per_page', 10);
+
+        $payments = Payment::with(
+                        [
+                            'location'      => fn($q) =>  $q->select(['id','location_name']),
+                            'installment'   => fn($n) =>  $n->select(['id','customer_name','so_number'])
+                        ]
+                    )
+                    ->search($search)
+                    ->paginate(
+                        $page,
+                        [
+                            'id',
+                            'location_id',
+                            'installment_id',
+                            'payment_date',
+                            'document_number',
+                            'or_number',
+                            'amount',
+                            'memo_description',
+                            'invoice_number',
+                            'generic_collector',
+                            'isrebatable'
+                        ]
+                    );
+
+        return response()->json(
+            [
+                'payments'  =>  $payments
+            ]
+            ,200
+        );
     }
 
     /**
@@ -47,7 +78,8 @@ class PaymentController
 
         $chunks = array_chunk($request->rows, 500);
 
-        foreach ($chunks as $index => $chunk) {
+        foreach ($chunks as $index => $chunk)
+        {
             $batchNumber = $index + 1;
 
             $startRow = ($index * 500) + 1;

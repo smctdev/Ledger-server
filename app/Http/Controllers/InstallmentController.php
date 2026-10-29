@@ -19,19 +19,19 @@ class InstallmentController extends Controller
         $search = $request->input('search');
         $page = $request->input("per_page",10);
 
-        $installments = Installment::select(
+        $installments = Installment::with(['location' => fn($q) => $q->select(['id','location_name'])])
+                                        ->search($search)
+                                        ->paginate(
+                                            $page,
                                             [
                                                 'id',
                                                 'location_id',
                                                 'internal_id',
                                                 'customer_name',
-                                                'so_number',
                                                 'purchase_date',
+                                                'so_number',
                                             ]
-                                        )
-                                        ->with(['location' => fn($q) => $q->select(['id','location_name'])])
-                                        ->search($search)
-                                        ->paginate($page);
+                                        );
         return response()->json(
             [
                 'accounts'      =>  $installments
