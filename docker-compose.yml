@@ -22,6 +22,9 @@ services:
             DB_DATABASE: ledger
             DB_USERNAME: smct
             DB_PASSWORD: smct
+            REVERB_HOST: ledger-reverb
+            REVERB_PORT: 8086
+            REVERB_SCHEME: http
         # command: php artisan queue:listen --tries=1
 
     ledger-nginx:
@@ -71,6 +74,10 @@ services:
         networks:
             - ledger-network
         restart: unless-stopped
+        environment:
+            REVERB_HOST: ledger-reverb
+            REVERB_PORT: 8086
+            REVERB_SCHEME: http
 
 #   ledger-scheduler:
 #     image: ledger-server
