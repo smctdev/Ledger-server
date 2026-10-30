@@ -41,7 +41,8 @@ RUN composer install --no-dev --optimize-autoloader
 
 # Set PHP upload limits
 RUN echo "upload_max_filesize=100M" > /usr/local/etc/php/conf.d/uploads.ini && \
-    echo "post_max_size=100M" >> /usr/local/etc/php/conf.d/uploads.ini
+    echo "post_max_size=100M" >> /usr/local/etc/php/conf.d/uploads.ini && \
+    echo "memory_limit=512M" >> /usr/local/etc/php/conf.d/uploads.ini
 
 # Set correct permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
