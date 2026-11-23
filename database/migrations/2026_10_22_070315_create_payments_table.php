@@ -31,8 +31,8 @@ return new class extends Migration
             $table->boolean('is_void')->default(false);
             $table->string("remarks")->nullable();
             $table->string("reasonToVoid")->nullable();
-            $table->date("void_date")->nullable();
-            $table->date("edited_date")->nullable();
+            $table->dateTime("void_date")->nullable();
+            $table->dateTime("edited_date")->nullable();
             $table->timestamps();
         });
     }

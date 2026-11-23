@@ -16,6 +16,7 @@ class PaymentController
     public function index(Request $request)
     {
         $search = $request->input('search');
+        $isVoid = $request->input('is_void');
         $page = $request->input('per_page', 10);
 
         $payments = Payment::with(
@@ -26,6 +27,7 @@ class PaymentController
                             'editedBy'      => fn($n) =>  $n->select(['id','name']),
                         ]
                     )
+                    ->when(!is_null($isVoid) , fn($q) =>  $q->where('is_void', $isVoid))
                     ->search($search)
                     ->paginate(
                         $page,
